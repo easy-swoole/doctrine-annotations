@@ -5,9 +5,9 @@ namespace EasySwoole\DoctrineAnnotation\Tests;
 
 
 use EasySwoole\DoctrineAnnotation\AnnotationReader;
-use PHPUnit\Framework\TestCase;
-use EasySwoole\DoctrineAnnotation\Tests\Tag\PropertyTag;
 use EasySwoole\DoctrineAnnotation\Tests\Tag\NonePropertyTag;
+use EasySwoole\DoctrineAnnotation\Tests\Tag\PropertyTag;
+use PHPUnit\Framework\TestCase;
 
 
 class PlainTextTest extends TestCase
@@ -30,6 +30,8 @@ class PlainTextTest extends TestCase
 
     function __construct($name = null, array $data = [], $dataName = '')
     {
+        new NonePropertyTag();
+        new PropertyTag();
         $this->ref = new \ReflectionClass(static::class);
         $this->reader = new AnnotationReader();
         parent::__construct($name, $data, $dataName);

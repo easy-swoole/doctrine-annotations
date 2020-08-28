@@ -21,6 +21,7 @@ class JsonArrayTest extends TestCase
 
     function __construct($name = null, array $data = [], $dataName = '')
     {
+        $t = new PropertyTag();
         $this->ref = new \ReflectionClass(static::class);
         $this->reader = new AnnotationReader();
         parent::__construct($name, $data, $dataName);
