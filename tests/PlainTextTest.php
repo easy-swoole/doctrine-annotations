@@ -10,24 +10,20 @@ use EasySwoole\DoctrineAnnotation\Tests\Tag\PropertyTag;
 use EasySwoole\DoctrineAnnotation\Tests\Tag\NonePropertyTag;
 
 
-class AnnotationTest extends TestCase
+class PlainTextTest extends TestCase
 {
     /**
      * @PropertyTag(input={"code":2})
      * @PropertyTag(input=r"{"code":2,"result":[{"name":1}]}")
      */
-    private $a;
+    private $property1;
 
     /**
      * @NonePropertyTag({"code":2})
      * @NonePropertyTag(r"{"code":2,"result":[{"name":1}]}")
      */
-    private $b;
+    private $property2;
 
-    /**
-     * @PropertyTag(input={"code":2,"result":[{"name":1}]})
-     */
-    private $jsonArray;
 
     private $ref;
     private $reader;
@@ -41,7 +37,7 @@ class AnnotationTest extends TestCase
 
     function testProperty()
     {
-        $ret = $this->reader->getPropertyAnnotations($this->ref->getProperty('a'));
+        $ret = $this->reader->getPropertyAnnotations($this->ref->getProperty('property1'));
         $this->assertIsArray($ret);
         $this->assertEquals(2,count($ret));
         $this->assertEquals(["code"=>2],$ret[0]->input);
@@ -50,16 +46,11 @@ class AnnotationTest extends TestCase
 
     function testNoneProperty()
     {
-        $ret = $this->reader->getPropertyAnnotations($this->ref->getProperty('b'));
+        $ret = $this->reader->getPropertyAnnotations($this->ref->getProperty('property2'));
         $this->assertIsArray($ret);
         $this->assertEquals(2,count($ret));
         $this->assertEquals(["code"=>2],$ret[0]->value);
         $this->assertEquals('{"code":2,"result":[{"name":1}]}',$ret[1]->value);
     }
 
-    function testJsonArray()
-    {
-        $ret = $this->reader->getPropertyAnnotations($this->ref->getProperty('jsonArray'));
-        $this->assertEquals(['code'=>2,'result'=>[['name'=>1]]],$ret[0]->input);
-    }
 }
