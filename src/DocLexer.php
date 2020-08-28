@@ -55,6 +55,9 @@ final class DocLexer extends AbstractLexer
     public const T_NULL                = 111;
     public const T_COLON               = 112;
     public const T_MINUS               = 113;
+    public const T_OPEN_SQR_BRACKETS   = 114;
+    public const T_CLOSE_SQR_BRACKETS  = 115;
+
 
     /** @var array<string, int> */
     protected $noCase = [
@@ -68,6 +71,8 @@ final class DocLexer extends AbstractLexer
         ':'  => self::T_COLON,
         '-'  => self::T_MINUS,
         '\\' => self::T_NAMESPACE_SEPARATOR,
+        '['  => self::T_OPEN_SQR_BRACKETS,
+        ']'  => self::T_CLOSE_SQR_BRACKETS
     ];
 
     /** @var array<string, int> */

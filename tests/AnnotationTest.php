@@ -24,6 +24,11 @@ class AnnotationTest extends TestCase
      */
     private $b;
 
+    /**
+     * @PropertyTag(input={"code":2,"result":[{"name":1}]})
+     */
+    private $jsonArray;
+
     private $ref;
     private $reader;
 
@@ -50,5 +55,11 @@ class AnnotationTest extends TestCase
         $this->assertEquals(2,count($ret));
         $this->assertEquals(["code"=>2],$ret[0]->value);
         $this->assertEquals('{"code":2,"result":[{"name":1}]}',$ret[1]->value);
+    }
+
+    function testJsonArray()
+    {
+        $ret = $this->reader->getPropertyAnnotations($this->ref->getProperty('jsonArray'));
+        $this->assertEquals(['code'=>2,'result'=>[['name'=>1]]],$ret[0]->input);
     }
 }

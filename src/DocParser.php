@@ -1190,6 +1190,10 @@ EXCEPTION
             return $this->Arrayx();
         }
 
+        if ($this->lexer->isNextToken(DocLexer::T_OPEN_SQR_BRACKETS)) {
+            return $this->JsonArray();
+        }
+
         if ($this->lexer->isNextToken(DocLexer::T_AT)) {
             return $this->Annotation();
         }
@@ -1232,6 +1236,39 @@ EXCEPTION
             default:
                 throw $this->syntaxError('PlainValue');
         }
+    }
+    /**
+     * Array ::= "[]" | ("[" PlainValue {"," PlainValue}* "]")
+     *
+     * @return array
+     */
+    private function JsonArray()
+    {
+        $values = array();
+
+        $this->match(DocLexer::T_OPEN_SQR_BRACKETS);
+
+        // If the array is empty, stop parsing and return.
+        if ($this->lexer->isNextToken(DocLexer::T_CLOSE_SQR_BRACKETS)) {
+            $this->match(DocLexer::T_CLOSE_SQR_BRACKETS);
+
+            return $values;
+        }
+
+        // Get the first value
+        $values[] = $this->PlainValue();
+
+        // While we have more values, get those as well
+        while ($this->lexer->isNextToken(DocLexer::T_COMMA)) {
+            $this->match(DocLexer::T_COMMA);
+
+            $values[] = $this->PlainValue();
+        }
+
+        // End of array
+        $this->match(DocLexer::T_CLOSE_SQR_BRACKETS);
+
+        return $values;
     }
 
     /**
